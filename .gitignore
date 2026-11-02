@@ -1,3 +1,5 @@
 .vscode
-!Project/Research Paper/*.pdf
-!Project/Research Paper/*.tex
+
+Project/Research Paper/**/*
+!Project/Research Paper/**/*.pdf
+!Project/Research Paper/**/*.tex

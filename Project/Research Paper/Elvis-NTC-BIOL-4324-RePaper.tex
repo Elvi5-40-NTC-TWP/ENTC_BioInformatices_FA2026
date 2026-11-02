@@ -1,0 +1,156 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PREAMBLE: Document Setup ---
+
+% 1. Page Layout: Sets 1-inch margins on all sides.
+\usepackage[a4paper, margin=1in]{geometry}
+
+% 2. Font & Language (for pdflatex compatibility)
+\usepackage[utf8]{inputenc}     % Handles input text encoding.
+\usepackage[T1]{fontenc}        % Handles font encoding for output.
+\usepackage{mathptmx}           % Sets the main font to a Times Roman clone.
+\usepackage[english]{babel}     % Provides language support.
+
+% Extra packages
+\usepackage{graphicx, caption, subcaption}
+
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs} % For professional quality lines
+\usepackage{siunitx}  % For alignment of numbers and percentages
+\usepackage{threeparttable}
+
+\usepackage{multicol} % Enables two-column layout
+\usepackage{caption} % Allows for \captionof outside of float environments
+
+% Add to the preamble (after your other \usepackage lines)
+\setlength{\fboxsep}{0pt}  % no padding: border touches the image
+\setlength{\fboxrule}{3pt} % border thickness (adjust: 0.8pt, 1pt, 1.5pt, ...)
+\newcommand{\framedinclude}[2][]{\fbox{\includegraphics[#1]{#2}}}
+
+% 3. Spacing: Sets the entire document to be double-spaced.
+\usepackage{setspace}
+\doublespacing
+
+% --- DOCUMENT INFORMATION ---
+% Define your paper's details here for easy reuse.
+% We use \newcommand to define custom commands for the title and author.
+\newcommand{\thetitle}{Placeholder}
+\newcommand{\theauthor}{Elvis N. Trujillo Chairez}
+\newcommand{\affiliation}{University of Houston}
+\newcommand{\coursename}{BIOL 4324: Bioinformatices}
+\newcommand{\instructor}{Adam Stuckert, PhD}
+\newcommand{\duedate}{\today} % Automatically uses today's date, or you can type a specific one.
+
+% We still pass this information to the standard \title and \author commands
+% for metadata purposes, which is good practice.
+\title{\thetitle}
+\author{\theauthor}
+
+% --- DOCUMENT START ---
+\begin{document}
+
+% =========================================================================
+% --- TITLE PAGE ---
+% The 'titlepage' environment creates a separate, unnumbered title page.
+% =========================================================================
+\begin{titlepage}
+    \centering
+    \vspace*{3cm} % Adds space from the top of the page.
+
+    % Title of the paper (bold and larger font).
+    \textbf{\huge \thetitle}
+
+    \vspace{2cm} % Adds vertical space between the title and author details.
+
+    % Author and affiliation details.
+    \large
+    \theauthor \\
+    \vspace{0.5cm}
+    \affiliation \\
+    \vspace{0.5cm}
+    \coursename \\
+    \vspace{0.5cm}
+    \instructor \\
+    \vspace{0.5cm}
+    \duedate
+
+    \vfill % Centers the block of text vertically on the page.
+\end{titlepage}
+
+
+% =========================================================================
+% --- ABSTRACT ---
+% Starts on a new page.
+% =========================================================================
+\newpage
+\begin{center}
+    \textbf{Abstract}
+\end{center}
+% The first line of the abstract is not indented.
+\par
+
+\newpage
+
+% =========================================================================
+% --- MAIN BODY ---
+% Starts on a new page with the title repeated at the top.
+% =========================================================================
+\begin{center}
+    \textbf{\large Introduction}
+\end{center}
+\par
+
+\newpage
+
+\begin{center}
+    \textbf{\large Material \& Methodology}
+\end{center}
+\par % This command ensures the text below starts as a new, indented paragraph.
+
+\begin{center}
+    \textbf{\large Results}
+\end{center}
+\par 
+
+\newpage 
+
+\begin{center}
+    \textbf{\large Discussion}
+\end{center}
+\par
+
+% =========================================================================
+% --- REFERENCES ---
+% Starts on a new page with a centered, bold heading.
+% =========================================================================
+\newpage
+\begin{center}
+    \textbf{References}
+\end{center}
+
+% Each reference entry is a separate paragraph with a hanging indent.
+% \hangindent sets the indentation for all lines of the paragraph except the first.
+% \noindent ensures the first line starts at the left margin.
+
+\par\hangindent=0.5in
+\noindent
+
+\par\hangindent=0.5in
+\noindent
+
+\par\hangindent=0.5in
+\noindent
+
+\par\hangindent=0.5in
+\noindent
+
+\par\hangindent=0.5in
+\noindent
+
+\par\hangindent=0.5in
+\noindent
+
+\par\hangindent=0.5in
+\noindent
+
+\end{document}
