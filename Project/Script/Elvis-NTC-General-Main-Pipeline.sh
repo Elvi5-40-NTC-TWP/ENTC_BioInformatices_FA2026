@@ -8,7 +8,7 @@ PREP_SCRIPT="$SCRIPT_DIR/Elvis-NTC-General-Prep.sh"
 mkdir -p "$SRR_DIR" logs
 
 # Load SRA toolkit if needed
-module load sra 2>/dev/null || true
+module load sra
 
 # Prefetch all .sra files into the SRR folder first
 while read -r acc || [ -n "$acc" ]; do
