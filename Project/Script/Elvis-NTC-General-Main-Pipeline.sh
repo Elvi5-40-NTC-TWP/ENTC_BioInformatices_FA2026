@@ -1,8 +1,9 @@
 #!/bin/bash
 
-ACCESSIONS_FILE="Accessions.txt"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ACCESSIONS_FILE="../Accessions.txt"
 SRR_DIR="SRR"
-PREP_SCRIPT="Elvis-NTC-General-Prep.sh"
+PREP_SCRIPT="$SCRIPT_DIR/Elvis-NTC-General-Prep.sh"
 
 mkdir -p "$SRR_DIR" logs
 

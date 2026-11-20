@@ -10,7 +10,7 @@
 
 mkdir -p logs fastq_raw fastq_trimmed fastqc_out bam_out bwa_index
 
-ACCESSIONS_FILE="Accessions.txt"
+ACCESSIONS_FILE="../Accessions.txt"
 SRR_DIR="SRR"
 REF_FASTA="ncbi_dataset/data/GCA_034140825.1/GCA_034140825.1_AGIS1.0_genomic.fna"
 BWA_PREFIX="bwa_index/AGIS1.0_bwa"
