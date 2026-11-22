@@ -18,6 +18,8 @@ if [ -f "$HOME/.bashrc" ]; then
 fi
 
 module load sratoolkit
+module load java
+module load python
 
 mkdir -p logs fastq_raw fastq_trimmed fastqc_out bam_out bwa_idx tmp_work
 
