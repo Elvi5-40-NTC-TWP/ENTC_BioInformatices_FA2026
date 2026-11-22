@@ -19,7 +19,11 @@ fi
 
 module load sratoolkit
 
-mkdir -p logs fastq_raw fastq_trimmed fastqc_out bam_out bwa_idx
+mkdir -p logs fastq_raw fastq_trimmed fastqc_out bam_out bwa_idx tmp_work
+
+TMP_DIR="tmp_work/fasterq_${SLURM_JOB_ID:-$$}_${SLURM_ARRAY_TASK_ID:-0}"
+mkdir -p "$TMP_DIR"
+trap 'rm -rf "$TMP_DIR"' EXIT
 
 ACCESSIONS_FILE="../Accessions.txt"
 SRR_DIR="SRR"
@@ -53,7 +57,7 @@ if [ ! -f "$SRA_INPUT" ]; then
 fi
 
 # 1. fasterq-dump into uncompressed fastqs, immediately gzip, and remove raw .sra
-fasterq-dump --split-files -e 5 -t /tmp --outdir fastq_raw "$SRA_INPUT"
+fasterq-dump --split-files -e 5 -t "$TMP_DIR" --outdir fastq_raw "$SRA_INPUT"
 gzip -f "fastq_raw/${SAMPLE}_1.fastq" "fastq_raw/${SAMPLE}_2.fastq"
 rm -rf "$SRR_DIR/${SAMPLE}" "$SRR_DIR/${SAMPLE}.sra"
 
