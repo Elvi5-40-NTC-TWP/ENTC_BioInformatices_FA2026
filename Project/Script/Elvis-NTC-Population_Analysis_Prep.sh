@@ -10,7 +10,6 @@
 
 set -euo pipefail
 
-# Ensure .bashrc mappings (Labs and subfolders) and required tools are loaded
 if [ -f "$HOME/.bashrc" ]; then
     set +u
     source "$HOME/.bashrc"
@@ -21,19 +20,18 @@ module load python
 module load sratoolkit
 module load java
 
-# 0. Define Directories and Variables
 PROJECT_BASE="/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space"
 BAM_DIR="${PROJECT_BASE}/bam_out"
 POPGEN_BASE="${PROJECT_BASE}/popgen_out"
+CHR_DIR="${POPGEN_BASE}/chr_beagle"
 REF_GENOME="${PROJECT_BASE}/ncbi_dataset/data/GCA_034140825.1/GCA_034140825.1_AGIS1.0_genomic.fna"
 BAM_LIST="${POPGEN_BASE}/bam_list.txt"
 ACCESSIONS_FILE="${PROJECT_BASE}/../Accessions.txt"
 META_TSV="${PROJECT_BASE}/../metadata.tsv"
 
-mkdir -p "${POPGEN_BASE}"
+mkdir -p "${POPGEN_BASE}" "${CHR_DIR}"
 cd "${POPGEN_BASE}"
 
-# Create starter metadata.tsv from Accessions.txt for accessions with an existing .sorted.bam and .bai
 if [ -f "${ACCESSIONS_FILE}" ]; then
     {
         printf "sample_id\tgroup\n"
@@ -54,24 +52,42 @@ fi
 echo "=== Step 1: Generating BAM list ==="
 find "${BAM_DIR}" -maxdepth 1 -name "*.sorted.bam" | sort > "${BAM_LIST}"
 
-# 1. ANGSD Genotype Calling & Likelihoods
-echo "=== Step 2: Running ANGSD Genotype Calling and GL Generation ==="
-angsd -GL 1 \
-    -out "${POPGEN_BASE}/angsd_output" \
-    -nThreads 5 \
-    -ref "${REF_GENOME}" \
-    -bam "${BAM_LIST}" \
-    -minMapQ 30 -minQ 20 \
-    -doMajorMinor 1 \
-    -SNP_pval 1e-6 -doMaf 1 \
-    -minMaf 0.05 \
-    -skipTriallelic 1 \
-    -doGlf 2 \
+echo "=== Step 2: Running ANGSD Per-Chromosome (-r) for Beagle GLs ==="
+COMBINED_BEAGLE="${POPGEN_BASE}/angsd_output.beagle.gz"
+rm -f "${COMBINED_BEAGLE}" "${CHR_DIR}"/*.beagle.gz
 
-# 2. Population Structure Analysis (PCAngsd)
+FIRST_CHR=1
+while IFS=$'\t' read -r chrom _rest; do
+    [ -z "$chrom" ] && continue
+    chr_prefix="${CHR_DIR}/angsd_${chrom}"
+
+    angsd -GL 1 \
+        -r "${chrom}" \
+        -out "${chr_prefix}" \
+        -nThreads 5 \
+        -ref "${REF_GENOME}" \
+        -bam "${BAM_LIST}" \
+        -minMapQ 30 -minQ 20 \
+        -doMajorMinor 1 \
+        -SNP_pval 1e-6 -doMaf 1 \
+        -minMaf 0.05 \
+        -skipTriallelic 1 \
+        -doGlf 2
+
+    chr_beagle="${chr_prefix}.beagle.gz"
+    if [ -f "${chr_beagle}" ]; then
+        if [ "${FIRST_CHR}" -eq 1 ]; then
+            zcat "${chr_beagle}" | gzip -c > "${COMBINED_BEAGLE}"
+            FIRST_CHR=0
+        else
+            # Append SNP rows while skipping the header line
+            zcat "${chr_beagle}" | tail -n +2 | gzip -c >> "${COMBINED_BEAGLE}"
+        fi
+    fi
+done < "${REF_GENOME}.fai"
+
 echo "=== Step 3: Running PCAngsd ==="
-# Note: ANGSD outputs the beagle file as angsd_output.beagle.gz
-pcangsd -b "${POPGEN_BASE}/angsd_output.beagle.gz" \
+pcangsd -b "${COMBINED_BEAGLE}" \
     --admix \
     --snp-weights \
     --sites-save \
