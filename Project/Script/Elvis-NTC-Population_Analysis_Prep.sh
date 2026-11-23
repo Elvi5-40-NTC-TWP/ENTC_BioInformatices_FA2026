@@ -31,13 +31,14 @@ META_TSV="${PROJECT_BASE}/../metadata.tsv"
 mkdir -p "${POPGEN_BASE}"
 cd "${POPGEN_BASE}"
 
-# Create starter metadata.tsv from Accessions.txt (Method 2)
+# Create starter metadata.tsv from Accessions.txt for accessions with an existing .sorted.bam
 if [ -f "${ACCESSIONS_FILE}" ]; then
     {
         printf "sample_id\tgroup\n"
         while read -r acc || [ -n "$acc" ]; do
             acc=$(echo "$acc" | tr -d '\r' | xargs)
             [ -z "$acc" ] && continue
+            [ -f "${BAM_DIR}/${acc}.sorted.bam" ] && [ -f "${BAM_DIR}/${acc}.sorted.bam.bai" ] || continue
             printf "%s\tUNASSIGNED\n" "$acc"
         done < "${ACCESSIONS_FILE}"
     } > "${META_TSV}"
