@@ -6,4 +6,5 @@ Project/Research Paper/**/*
 
 Project/White-Space/**/*
 !Project/White-Space/Temp_Holder.txt
-!Project/White-Space/popgen_out/*
+!Project/White-Space/popgen_out/
+!Project/White-Space/popgen_out/**

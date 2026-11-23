@@ -1,0 +1,11 @@
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471929.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471930.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471931.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471933.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471934.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471935.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471936.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471937.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471938.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471939.sorted.bam
+/project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/bam_out/SRR33471940.sorted.bam

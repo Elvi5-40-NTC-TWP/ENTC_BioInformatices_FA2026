@@ -1,0 +1,21 @@
+PCAngsd v1.36.4
+Time: 22/11/2026 23:36:33
+Directory: /project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/popgen_out
+Options:
+	--beagle /project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/popgen_out/angsd_output.beagle.gz
+	--threads 5
+	--out /project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/popgen_out/pcangsd_output
+	--snp_weights
+	--admix
+	--sites_save
+
+Loaded 208182 sites and 11 samples.
+Number of sites after MAF filtering (0.05): 208182
+
+PCAngsd did not converge using 1 eigenvectors!
+Saved covariance matrix as /project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/popgen_out/pcangsd_output.cov
+Saved SNP weights as /project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/popgen_out/pcangsd_output.weights
+Saved admixture proportions as /project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/popgen_out/pcangsd_output.admix.2.Q
+Saved ancestral allele frequencies proportions as /project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/popgen_out/pcangsd_output.admix.2.P
+Saved boolean vector of sites kept after filtering as /project/stuckert/entruji2/ENTC_BioInformatices_FA2026/Project/White-Space/popgen_out/pcangsd_output.sites
+Total elapsed time: 0m13s
