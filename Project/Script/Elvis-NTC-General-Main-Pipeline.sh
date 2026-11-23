@@ -4,6 +4,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ACCESSIONS_FILE="../Accessions.txt"
 SRR_DIR="SRR"
 PREP_SCRIPT="$SCRIPT_DIR/Elvis-NTC-General-Prep.sh"
+POP_PREP_SCRIPT="$SCRIPT_DIR/Elvis-NTC-Population_Analysis_Prep.sh"
 
 mkdir -p "$SRR_DIR" logs
 
@@ -38,3 +39,5 @@ done
 
 echo "All prefetches finished. Submitting $PREP_SCRIPT array job..."
 sbatch "$PREP_SCRIPT"
+echo "$PREP_SCRIPT is done. Time for $POP_PREP_SCRIPT job..."
+sbatch "$POP_PREP_SCRIPT"
