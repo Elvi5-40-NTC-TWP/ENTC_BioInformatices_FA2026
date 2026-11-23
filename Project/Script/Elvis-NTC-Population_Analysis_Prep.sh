@@ -8,6 +8,8 @@
 #SBATCH --cpus-per-task=5
 #SBATCH --partition=batch
 
+set -euo pipefail
+
 # Ensure .bashrc mappings (Labs and subfolders) and required tools are loaded
 if [ -f "$HOME/.bashrc" ]; then
     set +u
@@ -31,7 +33,7 @@ META_TSV="${PROJECT_BASE}/../metadata.tsv"
 mkdir -p "${POPGEN_BASE}"
 cd "${POPGEN_BASE}"
 
-# Create starter metadata.tsv from Accessions.txt for accessions with an existing .sorted.bam
+# Create starter metadata.tsv from Accessions.txt for accessions with an existing .sorted.bam and .bai
 if [ -f "${ACCESSIONS_FILE}" ]; then
     {
         printf "sample_id\tgroup\n"
@@ -42,6 +44,11 @@ if [ -f "${ACCESSIONS_FILE}" ]; then
             printf "%s\tUNASSIGNED\n" "$acc"
         done < "${ACCESSIONS_FILE}"
     } > "${META_TSV}"
+fi
+
+echo "=== Step 0.5: Re-indexing Reference FASTA if Needed ==="
+if [ ! -f "${REF_GENOME}.fai" ] || [ "${REF_GENOME}" -nt "${REF_GENOME}.fai" ]; then
+    samtools faidx "${REF_GENOME}"
 fi
 
 echo "=== Step 1: Generating BAM list ==="
@@ -64,13 +71,12 @@ angsd -GL 1 \
     -dopost 1 -dogeno 1 -docounts 1
 
 # 2. Population Structure Analysis (PCAngsd)
-echo "=== Step 3: Loading Python and Running PCAngsd ==="
-
+echo "=== Step 3: Running PCAngsd ==="
 # Note: ANGSD outputs the beagle file as angsd_output.beagle.gz
 pcangsd -b "${POPGEN_BASE}/angsd_output.beagle.gz" \
     --admix \
-    --snp_weights \
-    --sites_save \
+    --snp-weights \
+    --sites-save \
     --threads 5 \
     --out "${POPGEN_BASE}/pcangsd_output"
 
@@ -100,3 +106,4 @@ else
 fi
 
 echo "Pipeline execution completed successfully!"
+```[cite: 4, 8, 11]
