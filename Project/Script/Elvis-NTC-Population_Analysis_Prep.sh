@@ -10,11 +10,9 @@
 
 set -euo pipefail
 
-if [ -f "$HOME/.bashrc" ]; then
-    set +u
-    source "$HOME/.bashrc"
-    set -u
-fi
+export HOME="${HOME:-/home/entruji2}"
+export USER="${USER:-entruji2}"
+export PATH="/usr/local/bin:/usr/bin:/bin:${PATH:-}"
 
 module load python
 module load sratoolkit
@@ -80,7 +78,6 @@ while IFS=$'\t' read -r chrom _rest; do
             zcat "${chr_beagle}" | gzip -c > "${COMBINED_BEAGLE}"
             FIRST_CHR=0
         else
-            # Append SNP rows while skipping the header line
             zcat "${chr_beagle}" | tail -n +2 | gzip -c >> "${COMBINED_BEAGLE}"
         fi
     fi
