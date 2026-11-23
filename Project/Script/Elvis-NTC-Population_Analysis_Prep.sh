@@ -67,8 +67,7 @@ angsd -GL 1 \
     -minMaf 0.05 \
     -skipTriallelic 1 \
     -doGlf 2 \
-    -dobcf 1 \
-    -dopost 1 -dogeno 1 -docounts 1
+    -dobcf 1
 
 # 2. Population Structure Analysis (PCAngsd)
 echo "=== Step 3: Running PCAngsd ==="
