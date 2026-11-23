@@ -67,7 +67,6 @@ angsd -GL 1 \
     -minMaf 0.05 \
     -skipTriallelic 1 \
     -doGlf 2 \
-    -dobcf 1
 
 # 2. Population Structure Analysis (PCAngsd)
 echo "=== Step 3: Running PCAngsd ==="
@@ -79,30 +78,4 @@ pcangsd -b "${POPGEN_BASE}/angsd_output.beagle.gz" \
     --threads 5 \
     --out "${POPGEN_BASE}/pcangsd_output"
 
-# 3. Fst Analysis (bcftools & vcftools)
-echo "=== Step 4: Extracting Population Sample Lists ==="
-if [ -f "${META_TSV}" ] && [ -s "${POPGEN_BASE}/pop1_groups.txt" ] && [ -s "${POPGEN_BASE}/pop2_groups.txt" ]; then
-    grep -f "${POPGEN_BASE}/pop1_groups.txt" "${META_TSV}" | cut -f1 > "${POPGEN_BASE}/pop1_samples.txt"
-    grep -f "${POPGEN_BASE}/pop2_groups.txt" "${META_TSV}" | cut -f1 > "${POPGEN_BASE}/pop2_samples.txt"
-    bcftools query -l "${POPGEN_BASE}/angsd_output.bcf" | grep -f "${POPGEN_BASE}/pop1_samples.txt" > "${POPGEN_BASE}/pop1_matched.txt" || true
-    bcftools query -l "${POPGEN_BASE}/angsd_output.bcf" | grep -f "${POPGEN_BASE}/pop2_samples.txt" > "${POPGEN_BASE}/pop2_matched.txt" || true
-fi
-
-echo "=== Step 5: Converting BCF to Compressed VCF ==="
-bcftools view "${POPGEN_BASE}/angsd_output.bcf" -O z -o "${POPGEN_BASE}/angsd_output.vcf.gz"
-bcftools index "${POPGEN_BASE}/angsd_output.vcf.gz"
-
-echo "=== Step 6: Computing Weir and Cockerham Fst via VCFtools ==="
-if [ -s "${POPGEN_BASE}/pop1_matched.txt" ] && [ -s "${POPGEN_BASE}/pop2_matched.txt" ]; then
-    vcftools --gzvcf "${POPGEN_BASE}/angsd_output.vcf.gz" \
-        --weir-fst-pop "${POPGEN_BASE}/pop1_matched.txt" \
-        --weir-fst-pop "${POPGEN_BASE}/pop2_matched.txt" \
-        --out "${POPGEN_BASE}/pop1_vs_pop2" \
-        --fst-window-size 50000 \
-        --fst-window-step 10000
-else
-    echo "Skipping VCFtools Fst: populate pop1_matched.txt and pop2_matched.txt (or pop1_groups.txt / pop2_groups.txt) when ready."
-fi
-
 echo "Pipeline execution completed successfully!"
-```[cite: 4, 8, 11]
