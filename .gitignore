@@ -3,6 +3,8 @@
 Project/Research Paper/**/*
 !Project/Research Paper/**/*.pdf
 !Project/Research Paper/**/*.tex
+!Project/Research Paper/Visuals
+!Project/Research Paper/Visuals/*
 
 Project/White-Space/**/*
 !Project/White-Space/Temp_Holder.txt
