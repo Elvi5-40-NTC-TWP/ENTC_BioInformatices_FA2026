@@ -173,16 +173,29 @@ print(p_admix)
 # ==========================================
 # Evaluate MVN on PC1-PC2 (guarded with tryCatch for small n = 11 sample size)
 cat("=== Multivariate Normality (MVN) on PC1 & PC2 ===\n")
+mvn_data <- as.data.frame(pcadat[, c("PC1", "PC2")])
+
 mvn_res <- tryCatch(
-  MVN::mvn(data = pcadat[, c("PC1", "PC2")], mvnTest = "mardia"),
+  MVN::mvn(data = mvn_data),
   error = function(e) {
-    cat("MVN Mardia test warning/error:", conditionMessage(e), "\n")
+    cat("MVN error:", conditionMessage(e), "\n")
     NULL
   }
 )
+
 if (!is.null(mvn_res)) {
-  print(mvn_res$multivariateNormality)
-  print(mvn_res$univariateNormality)
+  if (isS4(mvn_res)) {
+    print(slotNames(mvn_res))
+    for (s in slotNames(mvn_res)) {
+      val <- slot(mvn_res, s)
+      if (length(val) > 0) {
+        cat(paste0("--- Slot: ", s, " ---\n"))
+        print(val)
+      }
+    }
+  } else {
+    print(mvn_res)
+  }
 }
 cat("\n")
 
